@@ -102,6 +102,7 @@ public class SnakeMover : MonoBehaviour
             {
                 _bodySections.Add(item);
                 item.Initialize(_camera);
+                // item.gameObject.transform.SetParent(transform);
             }
         }
     }
