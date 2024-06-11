@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -14,6 +13,8 @@ public class SnakeMover : MonoBehaviour
     
     private float _minPositionY;
     private float _maxPositionY;
+
+    public event Action OnBonusEntered;
 
     private void Start()
     {
@@ -78,6 +79,7 @@ public class SnakeMover : MonoBehaviour
         {
             Destroy(bonus.gameObject);
             Debug.Log("+1");
+            OnBonusEntered?.Invoke();
         }
     }
 }

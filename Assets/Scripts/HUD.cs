@@ -1,18 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class HUD : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private TMP_Text _points;
+    [SerializeField] private SnakeMover _snakeMover;
+
+    private int _pointsValue;
+
+    private void Start()
     {
-        
+        _points.text = _pointsValue.ToString();
+        _snakeMover.OnBonusEntered += AddPoints;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void AddPoints()
     {
-        
+        _pointsValue++;
+        _points.text = _pointsValue.ToString();
     }
 }
