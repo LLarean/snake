@@ -1,3 +1,5 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -67,6 +69,15 @@ public class SnakeMover : MonoBehaviour
         else if (screenPoint.y > Screen.height)
         {
             transform.position = new Vector2(transform.position.x, _minPositionY);
+        }
+    }
+    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.TryGetComponent(out Bonus bonus))
+        {
+            Destroy(bonus.gameObject);
+            Debug.Log("+1");
         }
     }
 }
