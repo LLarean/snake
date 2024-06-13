@@ -5,6 +5,7 @@ public class Item : MonoBehaviour
 {
     [SerializeField] private ItemType _itemType; 
     [SerializeField] private SpriteRenderer _spriteRenderer; 
+    [SerializeField] private Collider2D _collider2D; 
     private Teleporter _teleporter;
 
     public ItemType ItemType => _itemType;
@@ -12,14 +13,19 @@ public class Item : MonoBehaviour
     public void Initialize(Camera camera)
     {
         _teleporter = new Teleporter(camera, transform);
-        SetBodyType();
     }
 
     public void ChangePosition() => _teleporter.ChangePosition();
 
-    private void SetBodyType()
+    public void SetBodyType(ItemType itemType)
     {
-        _itemType = ItemType.Body;
+        _itemType = itemType;
         _spriteRenderer.color = Color.white;
+
+        // if (itemType == ItemType.Neck)
+        // {
+        //     _collider2D.isTrigger = false;
+        //     _spriteRenderer.color = Color.red;
+        // }
     }
 }

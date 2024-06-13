@@ -11,7 +11,7 @@ public class HUD : MonoBehaviour
     private void Start()
     {
         _points.text = _pointsValue.ToString();
-        _snakeMover.OnBonusEntered += AddPoints;
+        // _snakeMover.OnBonusEntered += AddPoints;
     }
 
     private void AddPoints()

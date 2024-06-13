@@ -4,7 +4,10 @@ public class Teleporter
 {
     private readonly Camera _camera;
     private readonly Transform _transform;
+    
+    private readonly float _minPositionX;
     private readonly float _maxPositionX;
+    private readonly float _minPositionY;
     private readonly float _maxPositionY;
 
     public Teleporter(Camera camera, Transform transform)
@@ -12,7 +15,9 @@ public class Teleporter
         _camera = camera;
         _transform = transform;
         
+        _minPositionX = _camera.ScreenToWorldPoint(new Vector2(0, 0)).x;
         _maxPositionX = _camera.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x;
+        _minPositionY = _camera.ScreenToWorldPoint(new Vector2(0, 0)).y;
         _maxPositionY = _camera.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
     }
     
@@ -20,21 +25,21 @@ public class Teleporter
     {
         Vector3 screenPoint = _camera.WorldToScreenPoint(_transform.position);
 
-        if (screenPoint.x < 0)
+        if (screenPoint.x < _minPositionX)
         {
             _transform.position = new Vector2(_maxPositionX, _transform.position.y);
         }
         else if (screenPoint.x > Screen.width)
         {
-            _transform.position = new Vector2(0 , _transform.position.y);
+            _transform.position = new Vector2(_minPositionX , _transform.position.y);
         }
-        else if (screenPoint.y < 0)
+        else if (screenPoint.y < _minPositionY)
         {
             _transform.position = new Vector2(_transform.position.x, _maxPositionY);
         }
         else if (screenPoint.y > Screen.height)
         {
-            _transform.position = new Vector2(_transform.position.x, 0);
+            _transform.position = new Vector2(_transform.position.x, _minPositionY);
         }
     }
 }
