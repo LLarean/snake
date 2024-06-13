@@ -3,20 +3,24 @@ using UnityEngine;
 
 public class HUD : MonoBehaviour
 {
-    [SerializeField] private TMP_Text _points;
-    [SerializeField] private SnakeHead _snakeHead;
+    [SerializeField]
+    private SnakeHead _snakeHead;
+    [SerializeField]
+    private TMP_Text _scores;
 
-    private int _pointsValue;
+    private int _scoresValue;
+    
+    public int ScoresValue => _scoresValue;
 
     private void Start()
     {
-        _points.text = _pointsValue.ToString();
-        _snakeHead.OnGameOver += AddPoints;
+        _scores.text = _scoresValue.ToString();
+        _snakeHead.OnItemAdded += AddScore;
     }
 
-    private void AddPoints()
+    private void AddScore()
     {
-        _pointsValue++;
-        _points.text = _pointsValue.ToString();
+        _scoresValue++;
+        _scores.text = _scoresValue.ToString();
     }
 }

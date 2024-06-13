@@ -9,6 +9,7 @@ public class SnakeHead : MonoBehaviour
     [SerializeField]
     private List<ReactionArea> _reactionArea;
 
+    public event Action OnItemAdded;
     public event Action OnGameOver;
     
     private void Start()
@@ -36,12 +37,18 @@ public class SnakeHead : MonoBehaviour
         switch (item.ItemType)
         {
             case ItemType.Food:
-                _snakeMover.AddItem(item);
+                AddItem(item);
                 break;
             case ItemType.Body:
                 Lose(item);
                 break;
         }
+    }
+
+    private void AddItem(Item item)
+    {
+        OnItemAdded?.Invoke();
+        _snakeMover.AddItem(item);
     }
 
     private void Lose(Item item)
