@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,8 @@ public class SnakeMover : MonoBehaviour
     
     private List<Item> _bodyItems = new();
 
+    public event Action<Item> OnItemsSwapped;
+    
     public DirectionMovement DirectionMovement => _directionMovement;
 
     public void AddItem(Item item)
@@ -25,6 +28,11 @@ public class SnakeMover : MonoBehaviour
         item.SetBodyType(ItemType.Body);
     }
     
+    public void StopMoving()
+    {
+        _isMoving = false;
+    }
+
     private void Start()
     {
         _teleporter = new Teleporter(_camera, transform);
@@ -48,19 +56,43 @@ public class SnakeMover : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            _directionMovement = DirectionMovement.Top;
+            ChangeDirectionMovement(DirectionMovement.Top);
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            _directionMovement = DirectionMovement.Bot;
+            ChangeDirectionMovement(DirectionMovement.Bot);
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            _directionMovement = DirectionMovement.Left;
+            ChangeDirectionMovement(DirectionMovement.Left);
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            _directionMovement = DirectionMovement.Right;
+            ChangeDirectionMovement(DirectionMovement.Right);
+        }
+    }
+
+    private void ChangeDirectionMovement(DirectionMovement directionMovement)
+    {
+        InvokeSwapItems(directionMovement);
+        _directionMovement = directionMovement;
+    }
+
+    private void InvokeSwapItems(DirectionMovement directionMovement)
+    {
+        if (_bodyItems.Count == 0)
+        {
+            return;
+        }
+        
+        switch (_directionMovement)
+        {
+            case DirectionMovement.Bot when directionMovement == DirectionMovement.Top:
+            case DirectionMovement.Top when directionMovement == DirectionMovement.Bot:
+            case DirectionMovement.Right when directionMovement == DirectionMovement.Left:
+            case DirectionMovement.Left when directionMovement == DirectionMovement.Right:
+                OnItemsSwapped?.Invoke(_bodyItems[0]);
+                break;
         }
     }
 

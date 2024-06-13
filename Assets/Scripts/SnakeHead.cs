@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,9 +8,13 @@ public class SnakeHead : MonoBehaviour
     private SnakeMover _snakeMover;
     [SerializeField]
     private List<ReactionArea> _reactionArea;
+
+    public event Action OnGameOver;
     
     private void Start()
     {
+        _snakeMover.OnItemsSwapped += Lose;
+        
         foreach (var reactionArea in _reactionArea)
         {
             reactionArea.OnTriggerEntered += OnReactionAreaEnter;
@@ -34,8 +39,15 @@ public class SnakeHead : MonoBehaviour
                 _snakeMover.AddItem(item);
                 break;
             case ItemType.Body:
-                Debug.Log("Lose");
+                Lose(item);
                 break;
         }
+    }
+
+    private void Lose(Item item)
+    {
+        OnGameOver?.Invoke();
+        _snakeMover.StopMoving();
+        item.SetRedColor();
     }
 }

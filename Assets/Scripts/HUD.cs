@@ -4,14 +4,14 @@ using UnityEngine;
 public class HUD : MonoBehaviour
 {
     [SerializeField] private TMP_Text _points;
-    [SerializeField] private SnakeMover _snakeMover;
+    [SerializeField] private SnakeHead _snakeHead;
 
     private int _pointsValue;
 
     private void Start()
     {
         _points.text = _pointsValue.ToString();
-        // _snakeMover.OnBonusEntered += AddPoints;
+        _snakeHead.OnGameOver += AddPoints;
     }
 
     private void AddPoints()

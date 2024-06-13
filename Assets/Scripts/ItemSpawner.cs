@@ -5,6 +5,8 @@ using Random = System.Random;
 public class ItemSpawner : MonoBehaviour
 {
     [SerializeField]
+    private SnakeHead _snakeHead;
+    [SerializeField]
     private Camera _camera;
     [SerializeField]
     private Item _item;
@@ -19,9 +21,10 @@ public class ItemSpawner : MonoBehaviour
     private float _maxPositionY;
     private bool _isActive;
 
-
     private void Start()
     {
+        _snakeHead.OnGameOver += GameOver;
+        
         _random = new Random();
         
         _minPositionX = _camera.ScreenToWorldPoint(new Vector2(0, 0)).x;
@@ -31,6 +34,11 @@ public class ItemSpawner : MonoBehaviour
 
         _isActive = true;
         StartCoroutine(Spawning());
+    }
+
+    private void GameOver()
+    {
+        _isActive = false;
     }
 
     private IEnumerator Spawning()

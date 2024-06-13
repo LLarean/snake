@@ -28,4 +28,9 @@ public class Item : MonoBehaviour
         //     _spriteRenderer.color = Color.red;
         // }
     }
+
+    public void SetRedColor()
+    {
+        _spriteRenderer.color = Color.red;
+    }
 }
